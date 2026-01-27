@@ -86,11 +86,13 @@ export class TenistasService {
 
   updateTenista(id: number, nombre: string, nacionalidad: string, numeroGrandSlams: number, peso: number, altura: number, golpeDominante: string){
     if(id !== null){
-      
+
+    } else {
+
     }
   }
 
-  deleteTenista() {
-
+  deleteTenista(id: number) {
+    this.listaTenista.filter(tenista => tenista.id !== id);
   }
 }
