@@ -28,6 +28,7 @@ export class TenistaListComponent {
     this.tenistas = this.sTenista.getTenistas();
     this.calcularEstadisticas();
   }
+  
 
   prepararEdicion(tenista: any) {
     this.id = tenista.id;
