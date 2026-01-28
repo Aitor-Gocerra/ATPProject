@@ -24,7 +24,39 @@ export class TenistaListComponent {
     this.sTenista.getTenistas();
   }
 
+  prepararEdicion(tenista: any) {
+    this.id = tenista.id;
+    this.nombre = tenista.nombre;
+    this.nacionalidad = tenista.nacionalidad;
+    this.numeroGrandSlams = tenista.numeroGrandSlams;
+    this.peso = tenista.peso;
+    this.altura = tenista.altura;
+    this.golpeDominante = tenista.golpeDominante;
+  }
+
+  limpiarFormulario() {
+    this.id = null;
+    this.nombre = '';
+    this.nacionalidad = '';
+    this.numeroGrandSlams = 0;
+    this.peso = 0;
+    this.altura = 0;
+    this.golpeDominante = '';
+  }
+
   guardar() {
-    if(id != null)
+    if(this.id !== null) {
+      this.sTenista.updateTenista(this.id, this.nombre, this.nacionalidad, this.numeroGrandSlams, this.peso, this.altura, this.golpeDominante);
+    } else {
+      this.sTenista.addTenista(this.nombre, this.nacionalidad, this.numeroGrandSlams, this.peso, this.altura, this.golpeDominante);
+    }
+
+    this.ngOnInit();
+    this.limpiarFormulario();
+  }
+
+  eliminar(id: number) {
+    this.sTenista.deleteTenista(id);
+    this.ngOnInit();
   }
 }
