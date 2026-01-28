@@ -23,4 +23,8 @@ export class TenistaListComponent {
   ngOnInit(){
     this.sTenista.getTenistas();
   }
+
+  guardar() {
+    if(id != null)
+  }
 }
