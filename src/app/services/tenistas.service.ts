@@ -84,15 +84,15 @@ export class TenistasService {
     this.listaTenista.push(nuevoTenista);
   }
 
-  updateTenista(id: number, nombre: string, nacionalidad: string, numeroGrandSlams: number, peso: number, altura: number, golpeDominante: string){
-    if(id !== null){
+  updateTenista(id: number, numeroGrandSlams: number){
+    const posicion = this.listaTenista.findIndex(tenista => tenista.id === id);
 
-    } else {
-
+    if(posicion !== -1){
+      this.listaTenista[posicion].numeroGrandSlams = numeroGrandSlams;
     }
   }
 
   deleteTenista(id: number) {
-    this.listaTenista.filter(tenista => tenista.id !== id);
+    this.listaTenista = this.listaTenista.filter(tenista => tenista.id !== id);
   }
 }

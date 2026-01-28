@@ -9,6 +9,7 @@ import { TenistasService } from 'src/app/services/tenistas.service';
 export class TenistaListComponent {
 
   tenistas: any[] = [];
+  tenistasPremiados: any[] = [];
 
   id: number | null = null;
   nombre: string = '';
@@ -18,10 +19,14 @@ export class TenistaListComponent {
   altura: number = 0;
   golpeDominante: string = '';
 
+  tenistaMalAlto: string = '';
+  tenistaMasPremios: string = '';
+
   constructor(private sTenista: TenistasService) {}
 
   ngOnInit(){
-    this.sTenista.getTenistas();
+    this.tenistas = this.sTenista.getTenistas();
+    this.calcularEstadisticas();
   }
 
   prepararEdicion(tenista: any) {
@@ -46,17 +51,47 @@ export class TenistaListComponent {
 
   guardar() {
     if(this.id !== null) {
-      this.sTenista.updateTenista(this.id, this.nombre, this.nacionalidad, this.numeroGrandSlams, this.peso, this.altura, this.golpeDominante);
+      this.sTenista.updateTenista(this.id, this.numeroGrandSlams);
     } else {
       this.sTenista.addTenista(this.nombre, this.nacionalidad, this.numeroGrandSlams, this.peso, this.altura, this.golpeDominante);
     }
 
     this.ngOnInit();
+    this.calcularEstadisticas();
     this.limpiarFormulario();
   }
 
   eliminar(id: number) {
     this.sTenista.deleteTenista(id);
-    this.ngOnInit();
+    this.tenistas = this.sTenista.getTenistas();
+    this.calcularEstadisticas();
   }
+
+  mostrarGrandSlams() {
+    const tenistas = this.sTenista.getTenistas();
+    this.tenistasPremiados = tenistas.filter(tenista => tenista.numeroGrandSlams == 0);
+  }
+
+  calcularEstadisticas() {
+    let tenistaMasAlto = this.tenistas[0];
+
+    for(let tenista of this.tenistas){
+      if(tenista.altura > tenistaMasAlto.altura){
+        tenistaMasAlto = tenista;
+      }
+    }
+
+    this.tenistaMalAlto = tenistaMasAlto.nombre;
+
+    let tenistaConGran = this.tenistas[0];
+
+    for(let tenista of this.tenistas) {
+      if(tenista.numeroGrandSlams > tenistaConGran.numeroGrandSlams){
+        tenistaConGran = tenista;
+      }
+    }
+    this.tenistaMasPremios = tenistaConGran.nombre;
+  }
+
+    
 }

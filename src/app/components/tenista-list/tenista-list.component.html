@@ -6,23 +6,47 @@
 </ul>
 
 <h2>CRUD TENISTA</h2>
-<br>
 <Label for="Nombre">Nombre:</Label>
-<input type="text" [(ngModel)]="nombre" placeholder="Nombre">
+<input type="text" [(ngModel)]="nombre" [disabled]="id !== null" placeholder="Nombre">
 <br>
 <label for="nacionalidad">Nacionalidad</label>
-<input type="text" [(ngModel)]="nacionalidad" placeholder="Nacionalidad">
+<input type="text" [(ngModel)]="nacionalidad"  [disabled]="id !== null"placeholder="Nacionalidad">
 <br>
 <label for="numeroGrandSlams">Numero de Grand Slams</label>
 <input type="number" [(ngModel)]="numeroGrandSlams">
 <br>
 <label for="altura">Altura</label>
-<input type="number" [(ngModel)]="altura">
+<input type="number" [(ngModel)]="altura" [disabled]="id !== null">
 <br>
 <label for="peso">Peso</label>
-<input type="number" [(ngModel)]="peso">
+<input type="number" [(ngModel)]="peso" [disabled]="id !== null">
 <br>
 <label for="golpeDominante">Golpe Dominante</label>
-<input type="text" [(ngModel)]="golpeDominante" placeholder="Golpe dominante">
+<input type="text" [(ngModel)]="golpeDominante" [disabled]="id !== null" placeholder="Golpe dominante">
 <br>
-<button (click)="guardar()"></button>
+<button (click)="guardar()">
+    {{id !== null ? 'Guardar Cambios (Solo Grand Slams)' : 'Agregar Tenista'}}
+</button>
+<button *ngIf="id !== null" (click)="limpiarFormulario()">Cancelar</button>
+
+<h2>Modificar sus premios o eliminar tenista</h2>
+<ul>
+    <li *ngFor = 'let tenista of tenistas'>
+        {{tenista.nombre}} -- {{tenista.numeroGrandSlams}} &nbsp;
+        <button (click)="eliminar(tenista.id)">Eliminar</button> &nbsp;
+        <button (click)="prepararEdicion(tenista)">Actualizar</button> <hr>
+    </li>
+</ul>
+
+<h2>Tenistas que no han ganado un Grand Slam</h2>
+<button (click)="mostrarGrandSlams()">Mostrar Tenistas</button>
+<ul>
+    <li *ngFor="let tenista of tenistasPremiados">
+        {{tenista.nombre}} -- {{tenista.numeroGrandSlams}} 
+    </li>
+</ul>
+<div>
+    <h3>Estadísticas:</h3>
+    <p>El tenista más alto es <strong>{{ tenistaMalAlto }}</strong>.</p>
+    <p>El tenista con más Grand Slams es <strong>{{ tenistaMasPremios}}</strong>.</p>
+</div>
